@@ -4,17 +4,6 @@ import json
 
 from Card import create_deck
 
-dummy_cards = create_deck()
-width = 600
-
-
-def update(dt, place):
-    dummy_cards[place].y -= 2  # Move the cards horizontally
-    print(dummy_cards[place].y)
-    if dummy_cards[place].y < 100:
-        pyglet.clock.unschedule(update)  # Stop the update loop when all cards are gone
-
-
 
 class CardGameClient(pyglet.window.Window):
     def __init__(self, *args, **kwargs):
@@ -39,19 +28,12 @@ class CardGameClient(pyglet.window.Window):
 
             print(f"Received {self.card_name}")
 
+            cards = create_deck()
             # # Set the initial positions for the cards
-            # for i, card in enumerate(dummy_cards):
-            #     card.x = 300 + i
-            #     card.y = 450 - 2 * i
-            #     card.draw()
-
-            # Register the update function
-            x = -200
-            for i in range(0, 3):
-                pyglet.clock.schedule_interval(update, 1 / 100.0, i)
-                dummy_cards[i].x = width / 2 + x
-                x += 200
-                dummy_cards[i].update_image()
+            for i, card in enumerate(cards):
+                card.x = 300 + i
+                card.y = 450 - 2 * i
+                card.draw()
 
     def on_draw(self):
         self.clear()
